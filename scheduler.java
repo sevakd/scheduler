@@ -14,14 +14,13 @@ class process {
 }
 
 class scheduler {
-  public int timeElapsed;
-
+  public int timeElapsed = 0;
+    //process[] worklist;
+    process[] worklist = new process[100];
   void loadIn(){
     String[] pvars;
     int[] pr;
     pr = new int[3];
-    process[] worklist;
-    worklist = new process[100];
     process a;
     int count = 0;
 
@@ -40,22 +39,30 @@ class scheduler {
         count++;
       }
       in.close();
-      worklist[2].display();
     } catch (IOException e) {
     }
   }
 
-  /*void fcfs(process run) {
-    while (burst >= 0){
-      burst-= 1;
+  void fcfs() {
+    for (process current : worklist){
+      if(current != null){
+        //current.display();
+        while (current.burst >= 0){
+          current.display();
+          current.burst-= 1;
+          timeElapsed++;
+        }
+        System.out.println(timeElapsed);
+      }
     }
-  }*/  
+  }  
 }
 
 class schedulerDemo {
   public static void main(String[] args) {
     scheduler one = new scheduler();
     one.loadIn();
+    one.fcfs();
     //System.out.one.worklist
   }
 }
