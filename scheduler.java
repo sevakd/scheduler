@@ -1,18 +1,38 @@
 import java.io.*;
 
 class process {
-  int pid, artime, burst;
+  public int pid, artime, burst;
+
+  public process(int pids, int artimes, int bursts) {
+    pid = pids;
+    artime = artimes;
+    burst = bursts;
+  }
+  public void display(){
+    System.out.println(pid);
+  }
 }
 
 class scheduler {
   int timeElapsed;
 
   void load(){
+    String[] pvars;
+    int[] pr;
+    pr = new int[3];
+    process a;
+
     try {
       BufferedReader in = new BufferedReader(new FileReader("input.txt"));
       String str;
       while ((str = in.readLine()) != null) {
-        System.out.println(str);
+        pvars = str.split(" ");
+        for (int i=0; i<3; i++) {
+          pr[i] = Integer.parseInt(pvars[i]);
+        }
+        //System.out.println(pr);
+        a = new process(pr[0], pr[1], pr[2]);
+        a.display();
       }
       in.close();
     } catch (IOException e) {
