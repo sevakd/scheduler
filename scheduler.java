@@ -9,18 +9,21 @@ class process {
     burst = bursts;
   }
   public void display(){
-    System.out.println(pid);
+    System.out.println(pid + " " + artime + " " + burst);
   }
 }
 
 class scheduler {
-  int timeElapsed;
+  public int timeElapsed;
 
-  void load(){
+  void loadIn(){
     String[] pvars;
     int[] pr;
     pr = new int[3];
+    process[] worklist;
+    worklist = new process[100];
     process a;
+    int count = 0;
 
     try {
       BufferedReader in = new BufferedReader(new FileReader("input.txt"));
@@ -31,10 +34,13 @@ class scheduler {
           pr[i] = Integer.parseInt(pvars[i]);
         }
         //System.out.println(pr);
-        a = new process(pr[0], pr[1], pr[2]);
-        a.display();
+        worklist[count] = new process(pr[0], pr[1], pr[2]);
+        //a.display();
+        //worklist[count] = a;
+        count++;
       }
       in.close();
+      worklist[2].display();
     } catch (IOException e) {
     }
   }
@@ -49,6 +55,7 @@ class scheduler {
 class schedulerDemo {
   public static void main(String[] args) {
     scheduler one = new scheduler();
-    one.load();
+    one.loadIn();
+    //System.out.one.worklist
   }
 }
