@@ -61,6 +61,11 @@ class scheduler {
     }
   }
 
+  process cp(process orig){
+    process c = new process(orig.pid, orig.artime, orig.burst);
+    return c;
+  }
+
   void fcfs() {
     float totwait = 0;
     float avgwait = 0;
@@ -88,19 +93,38 @@ class scheduler {
     PriorityQueue<process> ready = new PriorityQueue<process>(worklist.size(), comparator);
     process current;
     process next;
-    for (int i=0; i<worklist.size(); i++){
-      current = worklist.get(i);
-      next = worklist.get(i+1).artime;
+    int i;
+    for (i=0; i<worklist.size(); i++){
+      if (ready.isEmpty()){
+        current = cp(worklist.get(i));
+      } else{
+          current = cp(ready.poll());
+      }
+      if (i<worklist.size()-1){
+        next = cp(worklist.get(i+1));
+      } else{
+          next = new process(0,0,0);
+      }
+      int k = 1;
       while(current.burst > 0){
-        if (timeElapsed == worklist[i+1].artime){
-          ready.add(
-
+        if (timeElapsed == next.artime){
+          ready.add(next);
+          k++;
+          next = cp(worklist.get(i + k));
         }
+        current.display();
         current.burst--;
+        //System.out.println(timeElapsed);
         timeElapsed++;
       }
+      System.out.println(timeElapsed);
+      /*for (int j=i; j<ready.size(); j++){
+        process n = ready.poll();
+        System.out.print("HI");
+        n.display();
+        worklist.set(j, ready.poll());
+      }*/
     }
-
   }
 
   void srt(){
